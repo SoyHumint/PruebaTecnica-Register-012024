@@ -1,6 +1,12 @@
 import React from "react";
-
+import { useState } from "react";
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="flex">
       <div className="mt-2 flex-1">
@@ -43,13 +49,13 @@ const Login = () => {
           </svg>
         </div>
         <div>
-          <div>
+          <div className="ml-60 pl-3 mb-6">
             <h1 className="text-2xl font-bold mb-4">¡Bienvenido!</h1>
-
-            <h2 className="text-center text-gray-500">
+            <h2 className="text-gray-500">
               Convertite ahora en un agente Flexy.
             </h2>
           </div>
+
           <div>
             <form className="max-w-md mx-auto">
               <div className="mb-4 flex items-center">
@@ -122,45 +128,95 @@ const Login = () => {
                 <h2 className="font-bold">Subi tu foto de perfil</h2>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-6">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2"
+                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
                   placeholder="Nombre y Apellido"
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-6">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2"
+                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
                   placeholder="+54 01 0200 000"
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-6">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2"
+                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
                   placeholder="hola@tuemail.com"
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 relative">
                 <input
-                  type="password"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2"
+                  type={showPassword ? "text" : "password"}
+                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
                   placeholder="Ingresá tu contraseña"
                 />
+                <span
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 15v-2a2 2 0 012-2h2a2 2 0 012 2v2m-6 2h.01M5 12h.01M19 12h.01"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17.95 12a8 8 0 10-11.9 6.7c.4.43.79.85 1.22 1.24m10.68-8.94A8 8 0 0012 4c-3.37 0-6.27 2.08-7.45 5.04m0 0L3.71 7.29m3.38 8.95L7.3 16.7M3.72 3.72l16.56 16.56"
+                      />
+                    </svg>
+                  )}
+                </span>
               </div>
             </form>
 
-            <h3 className="text-center text-gray-500">
+            <h3 className="text-center text-gray-500 mb-6">
               Debe tener al menos 8 caracteres.
             </h3>
-            <button className="bg-purple-600 text-white py-2 px-4 rounded-lg mx-auto w-full">
-              Regístrate
-            </button>
+            <div className="flex justify-center mb-6">
+              <button className="bg-indigo-600 max-w-md text-white py-2 px-4 rounded-lg w-full">
+                Regístrate
+              </button>
+            </div>
 
             <h2 className="text-center">
               ¿Ya tienes una cuenta? <b>Inicia Sesión</b>

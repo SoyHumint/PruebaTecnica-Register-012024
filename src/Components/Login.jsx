@@ -2,9 +2,67 @@ import React from "react";
 import { useState } from "react";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [password, setPasswordName] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleNameChange = (event) => {
+    setFullName(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPasswordName(event.target.value);
+  };
+
+  const validateName = () => {
+    const regex = /^[a-zA-Z]+\s[a-zA-Z]+$/;
+    const isValid = regex.test(fullName);
+    setNameError(!isValid);
+  };
+
+  const validateEmail = () => {
+    const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    const isValid = regex.test(email);
+    setEmailError(!isValid);
+  };
+
+  const handlePhoneNumberChange = (event) => {
+    let formattedPhoneNumber = event.target.value;
+    formattedPhoneNumber = formattedPhoneNumber.replace(/\D/g, ""); // Elimina todos los caracteres no numéricos
+    formattedPhoneNumber = formattedPhoneNumber.replace(
+      /^(\d{2})(\d*)/,
+      "+$1 $2"
+    ); // Agrega un '+' y un espacio después de los primeros 2 dígitos
+
+    formattedPhoneNumber = formattedPhoneNumber.replace(/(\d{2})(\d)/, "$1 $2"); // Agrega un espacio después de los segundos 2 dígitos
+    formattedPhoneNumber = formattedPhoneNumber.replace(/(\d{4})(\d)/, "$1 $2"); // Agrega un espacio después de los siguientes 4 dígitos
+
+    setPhoneNumber(formattedPhoneNumber);
+  };
+
+  const validatePhoneNumber = () => {
+    const regex = /^\+\d{2}\s\d{2}\s\d{4}\s\d{3}$/;
+    const isValid = regex.test(phoneNumber); // Validar con o sin el signo '+'
+    setPhoneError(!isValid);
+  };
+
+  const validatePassword = () => {
+    const regex = /^.{8,}$/;
+    const isValid = regex.test(password);
+    setPasswordError(!isValid);
   };
 
   return (
@@ -49,7 +107,7 @@ const Login = () => {
           </svg>
         </div>
         <div>
-          <div className="ml-60 pl-3 mb-6">
+          <div className="ml-60 pl-3 mb-6 mt-20">
             <h1 className="text-2xl font-bold mb-4">¡Bienvenido!</h1>
             <h2 className="text-gray-500">
               Convertite ahora en un agente Flexy.
@@ -131,33 +189,70 @@ const Login = () => {
               <div className="mb-6">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
+                  value={fullName}
+                  onChange={handleNameChange}
+                  onBlur={validateName}
+                  className={`w-full border border-gray-300 rounded-md px-4 py-2 ${
+                    nameError ? "border-red-500" : "bg-gray-200 bg-opacity-50"
+                  }`}
                   placeholder="Nombre y Apellido"
                 />
+                {nameError && (
+                  <p className="text-red-500">
+                    Por favor ingresa un nombre y apellido válido.
+                  </p>
+                )}
               </div>
 
               <div className="mb-6">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
+                  value={phoneNumber}
+                  onChange={handlePhoneNumberChange}
+                  onBlur={validatePhoneNumber}
+                  className={`w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50 ${
+                    phoneError ? "border-red-500" : ""
+                  }`}
                   placeholder="+54 01 0200 000"
                 />
+                {phoneError && (
+                  <p className="text-red-500">
+                    Por favor, introduce un número de teléfono válido.
+                  </p>
+                )}
               </div>
 
               <div className="mb-6">
                 <input
                   type="text"
+                  value={email}
+                  onChange={handleEmailChange}
+                  onBlur={validateEmail}
                   className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
                   placeholder="hola@tuemail.com"
                 />
+                {emailError && (
+                  <p className="text-red-500 text-center">
+                    Por favor, introduce una dirección de correo electrónico
+                    válida.
+                  </p>
+                )}
               </div>
 
               <div className="mb-4 relative">
                 <input
                   type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={handlePasswordChange}
+                  onBlur={validatePassword}
                   className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
                   placeholder="Ingresá tu contraseña"
                 />
+                {passwordError && (
+                  <p className="text-red-500 text-center">
+                    Por favor, introduce una password válida.
+                  </p>
+                )}
                 <span
                   className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                   onClick={togglePasswordVisibility}

@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 const Login = () => {
+  const { register, handleSubmit } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -65,10 +68,14 @@ const Login = () => {
     setPasswordError(!isValid);
   };
 
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
   return (
     <div className="flex">
       <div className="mt-2 flex-1">
-        <div className="flex justify-between items-center pl-4 mt-6 border-b border-gray-300 pb-6">
+        <div className="flex justify-between items-center pl-[24px] pb-[16px]  pt-[16px] border-b border-gray-300 ">
           <svg
             width="134"
             height="40"
@@ -131,14 +138,14 @@ const Login = () => {
         </div>
         <div>
           <div className="mb-2 mt-14 xl:mb-6 xl:mt-20 text-center xl:text-left xl:pl-60 xl:ml-3">
-            <h1 className="font-bold mb-4 text-4xl">¡Bienvenido!</h1>
-            <h2 className="text-gray-500 text-xl">
+            <h3 className="font-bold mb-4 text-4xl">¡Bienvenido!</h3>
+            <p className="text-[#000929] text-xl opacity-50">
               Convertite ahora en un agente Flexy.
-            </h2>
+            </p>
           </div>
 
           <div className="flex-1 p-5">
-            <form className="max-w-md mx-auto">
+            <form className="max-w-md mx-auto" onSubmit={onSubmit}>
               <div className="mb-4 flex items-center">
                 <svg
                   width="47"
@@ -206,7 +213,9 @@ const Login = () => {
                   </defs>
                 </svg>
 
-                <h2 className="font-bold">Subi tu foto de perfil</h2>
+                <h2 className="font-medium text-[#000929]">
+                  Subí tu foto de perfil
+                </h2>
               </div>
 
               <div className="mb-6">
@@ -219,6 +228,7 @@ const Login = () => {
                     nameError ? "border-red-500" : "bg-[#F7F7FD] bg-opacity-50"
                   }`}
                   placeholder="Nombre y Apellido"
+                  {...register("fullName", { required: true })}
                 />
                 {nameError && (
                   <p className="text-red-500">
@@ -237,6 +247,7 @@ const Login = () => {
                     phoneError ? "border-red-500" : ""
                   }`}
                   placeholder="+54 01 0200 000"
+                  {...register("phoneNumber", { required: true })}
                 />
                 {phoneError && (
                   <p className="text-red-500 text-left">
@@ -253,6 +264,7 @@ const Login = () => {
                   onBlur={validateEmail}
                   className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50"
                   placeholder="hola@tuemail.com"
+                  {...register("email", { required: true })}
                 />
                 {emailError && (
                   <p className="text-red-500 ">
@@ -270,6 +282,7 @@ const Login = () => {
                   onBlur={validatePassword}
                   className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50"
                   placeholder="Ingresá tu contraseña"
+                  {...register("password", { required: true })}
                 />
                 {passwordError && (
                   <p className="text-red-500">
@@ -333,18 +346,19 @@ const Login = () => {
               Debe tener al menos 8 caracteres.
             </h3>
 
-            <h3 className="text-center text-[#7065F0] mb-6 block xl:hidden">
+            <p className="text-center text-[#7065F0] mb-6 block xl:hidden textsize-[14px]">
               ¿Olvidaste tu contraseña?
-            </h3>
+            </p>
 
             <div className="flex justify-center mb-6">
-              <button className="bg-[#7065F0] max-w-md text-[#FFFFFF] py-2 px-4 rounded-lg w-full font-semibold">
+              <button className="bg-[#7065F0] max-w-md text-[#FFFFFF] py-2 px-4 rounded-lg w-full font-bold textsize-[16px]">
                 Registrate
               </button>
             </div>
 
-            <h2 className="text-center">
-              ¿Ya tenés una cuenta? <b>Inicia Sesión</b>
+            <h2 className="text-center text-[#6C727F]">
+              ¿Ya tenés una cuenta?{" "}
+              <b className="text-[#000929]">Iniciá Sesión</b>
             </h2>
           </div>
         </div>

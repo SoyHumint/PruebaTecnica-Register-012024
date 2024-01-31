@@ -1,9 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -13,6 +11,28 @@ const Login = () => {
   const [nameError, setNameError] = useState(false);
   const [password, setPasswordName] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+
+  const handleRegister = () => {
+    if (
+      fullName !== "" &&
+      email !== "" &&
+      phoneNumber !== "" &&
+      password !== "" &&
+      !emailError &&
+      !phoneError &&
+      !nameError &&
+      !passwordError
+    ) {
+      setNameError(false);
+      setEmailError(false);
+      setPhoneError(false);
+      setPasswordError(false);
+      const newUrl = `/home`;
+      window.location.href = newUrl;
+    } else {
+      // alert("Faltan campos por rellenar");
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -30,6 +50,20 @@ const Login = () => {
     setPasswordName(event.target.value);
   };
 
+  const handlePhoneNumberChange = (event) => {
+    let formattedPhoneNumber = event.target.value;
+    formattedPhoneNumber = formattedPhoneNumber.replace(/\D/g, ""); // Elimina todos los caracteres no numéricos.
+    formattedPhoneNumber = formattedPhoneNumber.replace(
+      /^(\d{2})(\d*)/,
+      "+$1 $2"
+    ); // Agrega un '+' y un espacio después de los primeros 2 dígitos.
+
+    formattedPhoneNumber = formattedPhoneNumber.replace(/(\d{2})(\d)/, "$1 $2"); // Agrega un espacio después de los segundos 2 dígitos.
+    formattedPhoneNumber = formattedPhoneNumber.replace(/(\d{4})(\d)/, "$1 $2"); // Agrega un espacio después de los siguientes 4 dígitos.
+
+    setPhoneNumber(formattedPhoneNumber);
+  };
+
   const validateName = () => {
     const regex = /^[a-zA-Z]+\s[a-zA-Z]+$/;
     const isValid = regex.test(fullName);
@@ -42,23 +76,9 @@ const Login = () => {
     setEmailError(!isValid);
   };
 
-  const handlePhoneNumberChange = (event) => {
-    let formattedPhoneNumber = event.target.value;
-    formattedPhoneNumber = formattedPhoneNumber.replace(/\D/g, ""); // Elimina todos los caracteres no numéricos
-    formattedPhoneNumber = formattedPhoneNumber.replace(
-      /^(\d{2})(\d*)/,
-      "+$1 $2"
-    ); // Agrega un '+' y un espacio después de los primeros 2 dígitos
-
-    formattedPhoneNumber = formattedPhoneNumber.replace(/(\d{2})(\d)/, "$1 $2"); // Agrega un espacio después de los segundos 2 dígitos
-    formattedPhoneNumber = formattedPhoneNumber.replace(/(\d{4})(\d)/, "$1 $2"); // Agrega un espacio después de los siguientes 4 dígitos
-
-    setPhoneNumber(formattedPhoneNumber);
-  };
-
   const validatePhoneNumber = () => {
     const regex = /^\+\d{2}\s\d{2}\s\d{4}\s\d{3}$/;
-    const isValid = regex.test(phoneNumber); // Validar con o sin el signo '+'
+    const isValid = regex.test(phoneNumber); // Validar con o sin el signo '+'.
     setPhoneError(!isValid);
   };
 
@@ -67,10 +87,6 @@ const Login = () => {
     const isValid = regex.test(password);
     setPasswordError(!isValid);
   };
-
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-  });
 
   return (
     <div className="flex">
@@ -123,29 +139,31 @@ const Login = () => {
             <path
               d="M3 8H21"
               stroke="#000929"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M3 16H21"
               stroke="#000929"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>
         <div>
-          <div className="mb-2 mt-14 xl:mb-6 xl:mt-20 text-center xl:text-left xl:pl-60 xl:ml-3">
-            <h3 className="font-bold mb-4 text-4xl">¡Bienvenido!</h3>
-            <p className="text-[#000929] text-xl opacity-50">
+          <div className="text-center xl:max-w-md xl:mx-auto mb-2 mt-14 xl:mb-6 xl:mt-20 ">
+            <h3 className="font-bold mb-4 text-4xl xl:text-left">
+              ¡Bienvenido!
+            </h3>
+            <p className="text-[#000929] text-xl opacity-50 xl:text-left">
               Convertite ahora en un agente Flexy.
             </p>
           </div>
 
           <div className="flex-1 p-5">
-            <form className="max-w-md mx-auto" onSubmit={onSubmit}>
+            <form className="max-w-md mx-auto">
               <div className="mb-4 flex items-center">
                 <svg
                   width="47"
@@ -228,7 +246,7 @@ const Login = () => {
                     nameError ? "border-red-500" : "bg-[#F7F7FD] bg-opacity-50"
                   }`}
                   placeholder="Nombre y Apellido"
-                  {...register("fullName", { required: true })}
+                  id="name"
                 />
                 {nameError && (
                   <p className="text-red-500">
@@ -247,7 +265,7 @@ const Login = () => {
                     phoneError ? "border-red-500" : ""
                   }`}
                   placeholder="+54 01 0200 000"
-                  {...register("phoneNumber", { required: true })}
+                  id="phone"
                 />
                 {phoneError && (
                   <p className="text-red-500 text-left">
@@ -264,7 +282,7 @@ const Login = () => {
                   onBlur={validateEmail}
                   className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50"
                   placeholder="hola@tuemail.com"
-                  {...register("email", { required: true })}
+                  id="email"
                 />
                 {emailError && (
                   <p className="text-red-500 ">
@@ -282,7 +300,7 @@ const Login = () => {
                   onBlur={validatePassword}
                   className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50"
                   placeholder="Ingresá tu contraseña"
-                  {...register("password", { required: true })}
+                  id="password"
                 />
                 {passwordError && (
                   <p className="text-red-500">
@@ -325,16 +343,16 @@ const Login = () => {
                       <path
                         d="M15.58 12C15.58 13.98 13.98 15.58 12 15.58C10.02 15.58 8.42001 13.98 8.42001 12C8.42001 10.02 10.02 8.42 12 8.42C13.98 8.42 15.58 10.02 15.58 12Z"
                         stroke="#9EA3AE"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M12 20.27C15.53 20.27 18.82 18.19 21.11 14.59C22.01 13.18 22.01 10.81 21.11 9.4C18.82 5.8 15.53 3.72 12 3.72C8.47 3.72 5.18 5.8 2.89 9.4C1.99 10.81 1.99 13.18 2.89 14.59C5.18 18.19 8.47 20.27 12 20.27Z"
                         stroke="#9EA3AE"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   )}
@@ -351,7 +369,10 @@ const Login = () => {
             </p>
 
             <div className="flex justify-center mb-6">
-              <button className="bg-[#7065F0] max-w-md text-[#FFFFFF] py-2 px-4 rounded-lg w-full font-bold textsize-[16px]">
+              <button
+                onClick={handleRegister}
+                className="bg-[#7065F0] max-w-md text-[#FFFFFF] py-2 px-4 rounded-lg w-full font-bold textsize-[16px]"
+              >
                 Registrate
               </button>
             </div>

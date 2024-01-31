@@ -107,14 +107,14 @@ const Login = () => {
           </svg>
         </div>
         <div>
-          <div className="ml-60 pl-3 mb-6 mt-20">
-            <h1 className="text-2xl font-bold mb-4">¡Bienvenido!</h1>
+          <div className="mb-2 mt-14 xl:mb-6 xl:mt-20 text-center xl:text-left xl:pl-60 xl:ml-3">
+            <h1 className="text-2xl font-bold mb-4 ">¡Bienvenido!</h1>
             <h2 className="text-gray-500">
               Convertite ahora en un agente Flexy.
             </h2>
           </div>
 
-          <div>
+          <div className="flex-1 p-5">
             <form className="max-w-md mx-auto">
               <div className="mb-4 flex items-center">
                 <svg
@@ -216,7 +216,7 @@ const Login = () => {
                   placeholder="+54 01 0200 000"
                 />
                 {phoneError && (
-                  <p className="text-red-500">
+                  <p className="text-red-500 text-left">
                     Por favor, introduce un número de teléfono válido.
                   </p>
                 )}
@@ -232,7 +232,7 @@ const Login = () => {
                   placeholder="hola@tuemail.com"
                 />
                 {emailError && (
-                  <p className="text-red-500 text-center">
+                  <p className="text-red-500 ">
                     Por favor, introduce una dirección de correo electrónico
                     válida.
                   </p>
@@ -249,7 +249,7 @@ const Login = () => {
                   placeholder="Ingresá tu contraseña"
                 />
                 {passwordError && (
-                  <p className="text-red-500 text-center">
+                  <p className="text-red-500">
                     Por favor, introduce una password válida.
                   </p>
                 )}
@@ -319,7 +319,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className=" ">
+      <div className="hidden xl:block">
         <img src="./src/assets/imagen01.png" alt="Imagen de bienvenida" />
       </div>
     </div>

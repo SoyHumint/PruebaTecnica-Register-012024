@@ -91,7 +91,7 @@ const Login = () => {
   return (
     <div className="flex">
       <div className="mt-2 flex-1">
-        <div className="flex justify-between items-center pl-[24px] pb-[16px]  pt-[16px] border-b border-gray-300 ">
+        <div className="flex justify-between items-center pl-[24px] pb-[16px] pt-[16px] border-b border-gray-300 xl:pt-[28px] xl:pl-[48px]  ">
           <svg
             width="134"
             height="40"
@@ -153,11 +153,11 @@ const Login = () => {
           </svg>
         </div>
         <div>
-          <div className="text-center xl:max-w-md xl:mx-auto mb-2 mt-14 xl:mb-6 xl:mt-20 ">
-            <h3 className="font-bold mb-4 text-4xl xl:text-left">
+          <div className="text-center xl:max-w-md xl:mx-auto mb-2 mt-14 xl:mt-20 ">
+            <h3 className="font-bold mb-4 text-4xl xl:text-left text-[32px]">
               ¡Bienvenido!
             </h3>
-            <p className="text-[#000929] text-xl opacity-50 xl:text-left">
+            <p className="text-[#000929] text-[16px] opacity-50 xl:text-left">
               Convertite ahora en un agente Flexy.
             </p>
           </div>
@@ -231,7 +231,7 @@ const Login = () => {
                   </defs>
                 </svg>
 
-                <h2 className="font-medium text-[#000929]">
+                <h2 className="font-medium text-[#000929] text-[16px]">
                   Subí tu foto de perfil
                 </h2>
               </div>
@@ -242,7 +242,7 @@ const Login = () => {
                   value={fullName}
                   onChange={handleNameChange}
                   onBlur={validateName}
-                  className={`w-full border border-[#E0DEF7] rounded-md px-4 py-2 ${
+                  className={`w-full border border-[#E0DEF7] rounded-md px-4 py-2 text-[16px] ${
                     nameError ? "border-red-500" : "bg-[#F7F7FD] bg-opacity-50"
                   }`}
                   placeholder="Nombre y Apellido"
@@ -261,7 +261,7 @@ const Login = () => {
                   value={phoneNumber}
                   onChange={handlePhoneNumberChange}
                   onBlur={validatePhoneNumber}
-                  className={`w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50 ${
+                  className={`w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50 text-[16px] ${
                     phoneError ? "border-red-500" : ""
                   }`}
                   placeholder="+54 01 0200 000"
@@ -280,7 +280,7 @@ const Login = () => {
                   value={email}
                   onChange={handleEmailChange}
                   onBlur={validateEmail}
-                  className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50"
+                  className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50 text-[16px]"
                   placeholder="hola@tuemail.com"
                   id="email"
                 />
@@ -298,7 +298,7 @@ const Login = () => {
                   value={password}
                   onChange={handlePasswordChange}
                   onBlur={validatePassword}
-                  className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50"
+                  className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50 text-[16px]"
                   placeholder="Ingresá tu contraseña"
                   id="password"
                 />
@@ -360,27 +360,27 @@ const Login = () => {
               </div>
             </form>
 
-            <h3 className="text-center text-[#6C727F] mb-6 hidden xl:block">
+            <h3 className="text-center text-[#6C727F] mb-6 hidden xl:block text-[14px] font-normal">
               Debe tener al menos 8 caracteres.
             </h3>
 
-            <p className="text-center text-[#7065F0] mb-6 block xl:hidden textsize-[14px]">
+            <p className="text-center text-[#7065F0] mb-6 block xl:hidden text-[14px] font-medium">
               ¿Olvidaste tu contraseña?
             </p>
 
             <div className="flex justify-center mb-6">
               <button
                 onClick={handleRegister}
-                className="bg-[#7065F0] max-w-md text-[#FFFFFF] py-2 px-4 rounded-lg w-full font-bold textsize-[16px]"
+                className="bg-[#7065F0] max-w-md text-[#FFFFFF] py-[12px] px-[24px] w-full font-bold text-[16px] rounded-[8px]"
               >
                 Registrate
               </button>
             </div>
 
-            <h2 className="text-center text-[#6C727F]">
+            <p className="text-center text-[#6C727F] text-[14px] font-medium ">
               ¿Ya tenés una cuenta?{" "}
-              <b className="text-[#000929]">Iniciá Sesión</b>
-            </h2>
+              <b className="text-[#000929] font-bold">Iniciá Sesión</b>
+            </p>
           </div>
         </div>
       </div>

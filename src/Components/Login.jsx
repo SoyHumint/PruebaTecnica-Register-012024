@@ -2,15 +2,73 @@ import React from "react";
 import { useState } from "react";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [password, setPasswordName] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleNameChange = (event) => {
+    setFullName(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPasswordName(event.target.value);
+  };
+
+  const validateName = () => {
+    const regex = /^[a-zA-Z]+\s[a-zA-Z]+$/;
+    const isValid = regex.test(fullName);
+    setNameError(!isValid);
+  };
+
+  const validateEmail = () => {
+    const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    const isValid = regex.test(email);
+    setEmailError(!isValid);
+  };
+
+  const handlePhoneNumberChange = (event) => {
+    let formattedPhoneNumber = event.target.value;
+    formattedPhoneNumber = formattedPhoneNumber.replace(/\D/g, ""); // Elimina todos los caracteres no numéricos
+    formattedPhoneNumber = formattedPhoneNumber.replace(
+      /^(\d{2})(\d*)/,
+      "+$1 $2"
+    ); // Agrega un '+' y un espacio después de los primeros 2 dígitos
+
+    formattedPhoneNumber = formattedPhoneNumber.replace(/(\d{2})(\d)/, "$1 $2"); // Agrega un espacio después de los segundos 2 dígitos
+    formattedPhoneNumber = formattedPhoneNumber.replace(/(\d{4})(\d)/, "$1 $2"); // Agrega un espacio después de los siguientes 4 dígitos
+
+    setPhoneNumber(formattedPhoneNumber);
+  };
+
+  const validatePhoneNumber = () => {
+    const regex = /^\+\d{2}\s\d{2}\s\d{4}\s\d{3}$/;
+    const isValid = regex.test(phoneNumber); // Validar con o sin el signo '+'
+    setPhoneError(!isValid);
+  };
+
+  const validatePassword = () => {
+    const regex = /^.{8,}$/;
+    const isValid = regex.test(password);
+    setPasswordError(!isValid);
+  };
+
   return (
     <div className="flex">
       <div className="mt-2 flex-1">
-        <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
+        <div className="flex justify-between items-center pl-4 mt-6 border-b border-gray-300 pb-6">
           <svg
             width="134"
             height="40"
@@ -47,16 +105,39 @@ const Login = () => {
               fill="white"
             />
           </svg>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="block xl:hidden mr-[24px]"
+          >
+            <path
+              d="M3 8H21"
+              stroke="#000929"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M3 16H21"
+              stroke="#000929"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </div>
         <div>
-          <div className="ml-60 pl-3 mb-6">
-            <h1 className="text-2xl font-bold mb-4">¡Bienvenido!</h1>
-            <h2 className="text-gray-500">
+          <div className="mb-2 mt-14 xl:mb-6 xl:mt-20 text-center xl:text-left xl:pl-60 xl:ml-3">
+            <h1 className="font-bold mb-4 text-4xl">¡Bienvenido!</h1>
+            <h2 className="text-gray-500 text-xl">
               Convertite ahora en un agente Flexy.
             </h2>
           </div>
 
-          <div>
+          <div className="flex-1 p-5">
             <form className="max-w-md mx-auto">
               <div className="mb-4 flex items-center">
                 <svg
@@ -131,33 +212,70 @@ const Login = () => {
               <div className="mb-6">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
+                  value={fullName}
+                  onChange={handleNameChange}
+                  onBlur={validateName}
+                  className={`w-full border border-[#E0DEF7] rounded-md px-4 py-2 ${
+                    nameError ? "border-red-500" : "bg-[#F7F7FD] bg-opacity-50"
+                  }`}
                   placeholder="Nombre y Apellido"
                 />
+                {nameError && (
+                  <p className="text-red-500">
+                    Por favor ingresa un nombre y apellido válido.
+                  </p>
+                )}
               </div>
 
               <div className="mb-6">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
+                  value={phoneNumber}
+                  onChange={handlePhoneNumberChange}
+                  onBlur={validatePhoneNumber}
+                  className={`w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50 ${
+                    phoneError ? "border-red-500" : ""
+                  }`}
                   placeholder="+54 01 0200 000"
                 />
+                {phoneError && (
+                  <p className="text-red-500 text-left">
+                    Por favor, introduce un número de teléfono válido.
+                  </p>
+                )}
               </div>
 
               <div className="mb-6">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
+                  value={email}
+                  onChange={handleEmailChange}
+                  onBlur={validateEmail}
+                  className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50"
                   placeholder="hola@tuemail.com"
                 />
+                {emailError && (
+                  <p className="text-red-500 ">
+                    Por favor, introduce una dirección de correo electrónico
+                    válida.
+                  </p>
+                )}
               </div>
 
-              <div className="mb-4 relative">
+              <div className="mb-4 relative text-[#000929]">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-200 bg-opacity-50"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  onBlur={validatePassword}
+                  className="w-full border border-[#E0DEF7] rounded-md px-4 py-2 bg-[#F7F7FD] bg-opacity-50"
                   placeholder="Ingresá tu contraseña"
                 />
+                {passwordError && (
+                  <p className="text-red-500">
+                    Por favor, introduce una password válida.
+                  </p>
+                )}
                 <span
                   className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                   onClick={togglePasswordVisibility}
@@ -185,23 +303,25 @@ const Login = () => {
                     </svg>
                   ) : (
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-gray-400"
-                      fill="none"
+                      width="24"
+                      height="24"
                       viewBox="0 0 24 24"
-                      stroke="currentColor"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        d="M15.58 12C15.58 13.98 13.98 15.58 12 15.58C10.02 15.58 8.42001 13.98 8.42001 12C8.42001 10.02 10.02 8.42 12 8.42C13.98 8.42 15.58 10.02 15.58 12Z"
+                        stroke="#9EA3AE"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                       />
                       <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.95 12a8 8 0 10-11.9 6.7c.4.43.79.85 1.22 1.24m10.68-8.94A8 8 0 0012 4c-3.37 0-6.27 2.08-7.45 5.04m0 0L3.71 7.29m3.38 8.95L7.3 16.7M3.72 3.72l16.56 16.56"
+                        d="M12 20.27C15.53 20.27 18.82 18.19 21.11 14.59C22.01 13.18 22.01 10.81 21.11 9.4C18.82 5.8 15.53 3.72 12 3.72C8.47 3.72 5.18 5.8 2.89 9.4C1.99 10.81 1.99 13.18 2.89 14.59C5.18 18.19 8.47 20.27 12 20.27Z"
+                        stroke="#9EA3AE"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                       />
                     </svg>
                   )}
@@ -209,22 +329,27 @@ const Login = () => {
               </div>
             </form>
 
-            <h3 className="text-center text-gray-500 mb-6">
+            <h3 className="text-center text-[#6C727F] mb-6 hidden xl:block">
               Debe tener al menos 8 caracteres.
             </h3>
+
+            <h3 className="text-center text-[#7065F0] mb-6 block xl:hidden">
+              ¿Olvidaste tu contraseña?
+            </h3>
+
             <div className="flex justify-center mb-6">
-              <button className="bg-indigo-600 max-w-md text-white py-2 px-4 rounded-lg w-full">
-                Regístrate
+              <button className="bg-[#7065F0] max-w-md text-[#FFFFFF] py-2 px-4 rounded-lg w-full font-semibold">
+                Registrate
               </button>
             </div>
 
             <h2 className="text-center">
-              ¿Ya tienes una cuenta? <b>Inicia Sesión</b>
+              ¿Ya tenés una cuenta? <b>Inicia Sesión</b>
             </h2>
           </div>
         </div>
       </div>
-      <div className=" ">
+      <div className="hidden xl:block">
         <img src="./src/assets/imagen01.png" alt="Imagen de bienvenida" />
       </div>
     </div>
